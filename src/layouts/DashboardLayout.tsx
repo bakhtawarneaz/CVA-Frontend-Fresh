@@ -1,6 +1,9 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useTypedSelector } from '../hooks/hooksType';
+import Aside from '../views/aside/Aside';
+import Header from '../views/header/Header';
+
 
 const DashboardLayout = () => {
 
@@ -12,26 +15,11 @@ const DashboardLayout = () => {
 
     return (
         <>
-            <div className='app-wrap'>
-                <aside>
-                <div className='app-brand'>
-                    <a href="index.html" className="app-brand-link"></a>
-                </div>
-                <div className='side-menu'>
-                    <ul>
-                    <li>
-                        <a href="#">organizations</a>
-                    </li>
-                    <li>
-                        <a href="#">brands</a>
-                    </li>
-                    <li>
-                        <a href="#">user</a>
-                    </li>
-                    </ul>
-                </div>
-                </aside>
-            </div>
+            <Aside />
+            <Header />
+            <main className="main-app-wrap">
+                <Outlet />
+            </main>
         </>
     );
 };

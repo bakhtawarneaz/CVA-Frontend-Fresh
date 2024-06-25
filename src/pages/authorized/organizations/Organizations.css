@@ -1,0 +1,84 @@
+.organization-wrap h2 {
+    color: #7367f0;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.btn-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+.MuiTableContainer-root::-webkit-scrollbar {
+    height: 3px;
+}
+
+.MuiTableContainer-root::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+.MuiTableContainer-root::-webkit-scrollbar-thumb {
+    background: #7367f0; 
+}
+
+.card-form {
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card-form form .profile {
+    margin-bottom: 20px;
+}
+
+.card-form form .profile img {
+    display: block;
+    border-radius: 50px;
+}
+
+.card-form form .field-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.card-form form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.card-form form .form-group label {
+    color: #5e5873;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.card-form form .form-group .form-control {
+    border: 1px solid #d8d6de;
+    padding: 10px 20px;
+    border-radius: 5px;
+    outline: none;
+    color: #5e5873;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+.card-form form .form-group textarea{
+    resize:none;
+}
+
+.card-form form .form-group input[type=color] {
+    padding: inherit;
+}
+
+.card-form form .form-group .form-control:focus{
+    border: 2px solid #7367f0;
+    box-shadow: 0 2px 6px 0 rgba(115, 103, 240, .3);
+}

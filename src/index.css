@@ -3,3 +3,36 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  body::-webkit-scrollbar-thumb {
+    background: #7367f0; 
+  }
+
+.main-app-wrap {
+    width: calc(100vw - 20rem);
+    margin-left: auto;
+    padding: 10px 50px;
+}
+
+.primary-btn{
+    color: #fff;
+    background-color: #7367f0;
+    border: 1px solid #7367f0;
+    box-shadow: 0px 2px 4px rgba(165, 163, 174, 0.4);
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    text-transform: capitalize;
+    cursor: pointer;
+    padding: 6px 20px;
+    border-radius: 3px;
+    outline: none;
+}

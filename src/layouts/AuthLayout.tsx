@@ -7,7 +7,7 @@ const AuthLayout = () => {
     const { token } = useTypedSelector((state) => state.auth);
 
     if (token) {
-        return <Navigate to={'/dashboard/home'} replace />;
+        return <Navigate to={'/dashboard/organizations'} replace />;
     }
 
     return (

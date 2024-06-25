@@ -13,13 +13,13 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <Provider store={store}>
-              <Toaster position="top-center" />
-              <RouterProvider router={router} />
-        </Provider>
+        <QueryClientProvider client={queryClient}>
+          <Toaster position="top-center" />
+          <RouterProvider router={router} />
+        </QueryClientProvider>
       </PersistGate>
-    </QueryClientProvider>
+    </Provider>
   </React.StrictMode>,
 )

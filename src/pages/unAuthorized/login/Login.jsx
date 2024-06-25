@@ -18,9 +18,8 @@ const Login = () => {
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (response) => {
-      debugger
       setToken(response.data.token);
-      navigate('/dashboard/home');
+      navigate('/dashboard/organizations');
     },
     onError: (error) => {
       toast.error(error.response.data.data.message)
