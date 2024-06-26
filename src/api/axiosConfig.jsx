@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { store } from '../redux/store';
 
-const BASE_URL = 'http://localhost:3055/v1';
+const BASE_URL = 'https://cva-be-went.its.com.pk/v1';
+//http://localhost:3055/v1
 
 const api = axios.create({
   baseURL: BASE_URL,
