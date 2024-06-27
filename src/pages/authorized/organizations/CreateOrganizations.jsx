@@ -167,19 +167,6 @@ const CreateOrganizations = () => {
                         {...register('city', { required: true })}
                         placeholder='City'
                       />
-                      {/* <select
-                            className={`form-control ${errors.city ? 'input-error' : ''}`}
-                            {...register('city', { required: true })}
-                        >
-                            <option value="">Select country</option>
-                            {
-                                countries?.data.countries.map((country) => (
-                                    <option key={country.id} value={country.id}>
-                                        {country.name}
-                                    </option>
-                                ))
-                            }
-                        </select> */}
                       {errors.city && <p>City is required</p>}       
                   </div>
                   <div className='form-group'> 
