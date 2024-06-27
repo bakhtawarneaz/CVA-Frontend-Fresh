@@ -17,7 +17,7 @@ const CreateOrganizations = () => {
     const user = useTypedSelector((state) => state.auth.user);
     const token = useTypedSelector((state) => state.auth.token);
  
-    const { data: countries, error: countriesError  } = useQuery({
+    const { data: countries, error: countriesError  } = useQuery({ 
         queryKey: ['countries'],
         queryFn: fetchCountries
     });
