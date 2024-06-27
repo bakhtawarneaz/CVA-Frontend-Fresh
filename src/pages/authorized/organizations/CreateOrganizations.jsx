@@ -1,25 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import './Organizations.css'
 import Button from '../../../components/Button'
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { createOrganization, createFormData, fetchCountries } from '../../../api/organizationsApi';
+import { createOrganization, fetchCountries } from '../../../api/organizationsApi';
 import { useTypedSelector } from '../../../hooks/hooksType';
 
 
 const CreateOrganizations = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [imagePreview, setImagePreview] = useState(null);
+    const fileInputRef = useRef(null);
 
-    const user = useTypedSelector((state) => state.auth);
+    const { register, handleSubmit, formState: { errors }, setValue, trigger  } = useForm();
 
-    const { data: countries } = useQuery({
+    const user = useTypedSelector((state) => state.auth.user);
+    const token = useTypedSelector((state) => state.auth.token);
+ 
+    const { data: countries, error: countriesError  } = useQuery({
         queryKey: ['countries'],
         queryFn: fetchCountries
     });
 
     const mutation = useMutation({
-        mutationFn:createOrganization,
+        mutationFn: (formData) => createOrganization(formData, token),
         onSuccess: (data) => {
           console.log('Form submitted successfully', data);
         },
@@ -28,30 +32,38 @@ const CreateOrganizations = () => {
         },
       });
     
-    // const onSubmit = (data) => {
-       
-    //     const formData = createFormData(data);
-    //     mutation.mutate(formData);
-    // };   
-
     const onSubmit = (data) => {
-       
-        const selectedCountry = countries.find(country => country.name === formData.country);
-            if (!selectedCountry) {
-            console.error('Selected country not found');
-            return;
-        }
 
+        const selectedCountry = countries.data.countries.find(country => country.id === data.country);
+        const isActiveBoolean = user.is_active === 'true' || user.is_active === true;
+        
         const organizationData = {
             ...data,
-            created_by: user.id,
-            enabled: user.is_active,
-            country_id: selectedCountry.id,
+            created_by: parseInt(user.id),
+            enabled: isActiveBoolean,
+            country_id: parseInt(selectedCountry.id),
         };
-
-        const formDataWithUser  = createFormData(organizationData);
-        mutation.mutate(formDataWithUser);
+        
+        mutation.mutate(organizationData);
     };  
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImagePreview(reader.result);
+            setValue('logo', file.name);
+            trigger('logo'); 
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+      const handleImageClick = () => {
+        fileInputRef.current.click();
+      };
+ 
 
   return (
     <div className='organization-wrap'>
@@ -61,30 +73,40 @@ const CreateOrganizations = () => {
         <div className='card-form'>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='profile'>
-                <img src="/src/assets/images/1.png" id="uploadedAvatar" />
-                <input type='file' {...register('image', { required: true })} />
-                {errors.image && <p>Profile is required</p>}
+                <img 
+                    onClick={handleImageClick} 
+                    src={imagePreview ? imagePreview : '/src/assets/images/1.png'} 
+                    id="uploadedAvatar" 
+                />
+                <input 
+                    type='file' 
+                    {...register('logo', { required: true })} 
+                    onChange={handleImageChange}
+                    ref={fileInputRef}
+                    hidden
+                />
+                {errors.logo && <p>Profile is required</p>}
               </div>
               <div className='field-wrap'>
                   <div className='form-group'> 
                       <label htmlFor="Name">Name</label>
                       <input 
-                        className={`form-control ${errors.name ? 'input-error' : ''}`} 
+                        className={`form-control ${errors.first_name ? 'input-error' : ''}`} 
                         type="text" 
-                        {...register('name', { required: true })} 
+                        {...register('first_name', { required: true })} 
                         placeholder='Name'
                       />
-                       {errors.name && <p>Name is required</p>}      
+                       {errors.first_name && <p>Name is required</p>}      
                   </div>
                   <div className='form-group'> 
                       <label htmlFor="Phone">Phone</label>
                       <input 
-                        className={`form-control ${errors.phone ? 'input-error' : ''}`} 
+                        className={`form-control ${errors.number ? 'input-error' : ''}`} 
                         type="tel" 
-                        {...register('phone', { required: true })}
+                        {...register('number', { required: true })}
                         placeholder='Phone'
                       /> 
-                      {errors.phone && <p>Phone is required</p>}      
+                      {errors.number && <p>Phone is required</p>}      
                   </div>
                   <div className='form-group'> 
                       <label htmlFor="Email">Email</label>
@@ -138,6 +160,29 @@ const CreateOrganizations = () => {
                       {errors.country && <p>Country is required</p>}       
                   </div>
                   <div className='form-group'> 
+                      <label htmlFor="City">City</label>
+                      <input 
+                        className={`form-control ${errors.city ? 'input-error' : ''}`}
+                        type="text" 
+                        {...register('city', { required: true })}
+                        placeholder='City'
+                      />
+                      {/* <select
+                            className={`form-control ${errors.city ? 'input-error' : ''}`}
+                            {...register('city', { required: true })}
+                        >
+                            <option value="">Select country</option>
+                            {
+                                countries?.data.countries.map((country) => (
+                                    <option key={country.id} value={country.id}>
+                                        {country.name}
+                                    </option>
+                                ))
+                            }
+                        </select> */}
+                      {errors.city && <p>City is required</p>}       
+                  </div>
+                  <div className='form-group'> 
                       <label htmlFor="On-Boarding Date">On-Boarding Date</label>
                       <input 
                        className={`form-control ${errors.date ? 'input-error' : ''}`}
@@ -149,11 +194,11 @@ const CreateOrganizations = () => {
                   <div className='form-group'> 
                       <label htmlFor="Color">Color</label>
                       <input 
-                        className={`form-control ${errors.color ? 'input-error' : ''}`}
+                        className={`form-control ${errors.primary_color ? 'input-error' : ''}`}
                         type="color" 
-                        {...register('color', { required: true })} 
+                        {...register('primary_color', { required: true })} 
                       /> 
-                      {errors.color && <p>Color is required</p>}      
+                      {errors.primary_color && <p>Color is required</p>}      
                   </div>
               </div>
               <Button text="create" onClick={handleSubmit(onSubmit)} />

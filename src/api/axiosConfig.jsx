@@ -31,7 +31,7 @@ api.interceptors.request.use(
 
 		// if token and isLoggedIn true then it fetch the data
 		if (token && isAuthenticated) {
-			request.headers.Authorization = `Bearer ${token}`;
+			request.headers.Authorization =`xt-client-token ${token}`;
 		}
 
 		return request;
